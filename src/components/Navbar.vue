@@ -4,10 +4,14 @@
         <img src="" alt="">
         <h1><router-link :to="{ name: 'Home' }" >AppName</router-link></h1>
         <div class="links">
-            <router-link class="btn" :to="{ name: 'Login' }">Login</router-link>
-            <router-link class="btn" :to="{ name: 'Signup' }">Sign up</router-link>
-            <button v-if="!isPending" @click="handleLogout">Logout</button>
-            <button v-if="isPending" disabled>Logging out...</button>
+            <div v-if="!user">
+                <router-link class="btn" :to="{ name: 'Login' }">Login</router-link>
+                <router-link class="btn" :to="{ name: 'Signup' }">Sign up</router-link>
+            </div>
+            <div v-if="user">
+                <button v-if="!isPending" @click="handleLogout">Logout</button>
+                <button v-if="isPending" disabled>Logging out...</button>
+            </div>
         </div>
     </nav>
     </div>
@@ -15,19 +19,21 @@
 
 <script>
 import useLogout from '../composables/useLogout'
+import getUser from '../composables/getUser'
 import { useRouter } from 'vue-router'
 
 export default {
     setup(){
+        const { user } = getUser()        
         const { error, logout, isPending } = useLogout()
         const router = useRouter()
 
         const handleLogout = async () => {
             await logout()
-            router.push({name: 'Home' })
+            router.push({name: 'Login' })
         }
 
-        return { error, isPending, handleLogout }
+        return { error, isPending, handleLogout, user }
     }
 }
 </script>

@@ -24,7 +24,7 @@ export default {
         const { error, signup, isPending } = useSignup()
 
         const handleSubmit = async () => {
-            const res = await signup(displayName.value, email.value, password.value )
+            const res = await signup(email.value, password.value, displayName.value )
             if(!error.value){
                 // redirect
             }
