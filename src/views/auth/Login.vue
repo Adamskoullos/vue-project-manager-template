@@ -12,18 +12,19 @@
 <script>
 import { ref } from '@vue/reactivity'
 import useLogin from '@/composables/useLogin'
+import { useRouter } from 'vue-router'
 
 export default {
     setup(){
         const email = ref('')
         const password = ref('')
-
+        const router = useRouter()
         const { error, login, isPending } = useLogin()
 
         const handleSubmit = async () => {
             const res = await login(email.value, password.value)
             if(!error.value){
-                // route to main view 
+                router.push({ name: 'Home' })
             }
         }
 
