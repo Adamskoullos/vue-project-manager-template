@@ -6,15 +6,29 @@
         <div class="links">
             <router-link class="btn" :to="{ name: 'Login' }">Login</router-link>
             <router-link class="btn" :to="{ name: 'Signup' }">Sign up</router-link>
-            <button @click="signOut">Logout</button>
+            <button v-if="!isPending" @click="handleLogout">Logout</button>
+            <button v-if="isPending" disabled>Logging out...</button>
         </div>
     </nav>
     </div>
 </template>
 
 <script>
-export default {
+import useLogout from '../composables/useLogout'
+import { useRouter } from 'vue-router'
 
+export default {
+    setup(){
+        const { error, logout, isPending } = useLogout()
+        const router = useRouter()
+
+        const handleLogout = async () => {
+            await logout()
+            router.push({name: 'Home' })
+        }
+
+        return { error, isPending, handleLogout }
+    }
 }
 </script>
 
