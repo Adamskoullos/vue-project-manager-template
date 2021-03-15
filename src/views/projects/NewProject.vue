@@ -1,11 +1,11 @@
 <template>
     <form @submit.prevent="addNewProject">
-        <h4>New Project</h4>
+        <h4>Create new project</h4>
         <input type="text" placeholder="Project Title" v-model="title" required>
         <textarea placeholder="Description" v-model="description" required></textarea>
         <label for="">Upload project image</label>
-        <input type="file">
-        <div class="error"></div>
+        <input type="file" @change="handleChange">
+        <div class="error">{{ fileError }}</div>
         <button>Add new project</button>
     </form>
 </template>
@@ -16,17 +16,35 @@ export default {
     setup(){
         const title = ref('')
         const description = ref('')
+        const coverImage = ref(null)
+        const fileTypes = ['image/png','image/jpeg']
+        const fileError = ref(null)
 
         const addNewProject = () => {
             // add project to db and route to...
         }
 
-        return { title, description, addNewProject }
+
+        const handleChange = (e) => {
+            const selected = e.target.files[0]
+            if(selected && fileTypes.includes(selected.type)){
+                // Add image to storage, resize and display as cover image
+                coverImage.value = selected
+                fileError.value = null
+                console.log(coverImage.value)
+            }else{
+                coverImage.value = null
+                fileError.value = 'Please select an image file (jpg or png)'
+            }
+        }
+
+
+        return { title, description, addNewProject, handleChange, coverImage, fileError }
     }
 }
 </script>
 
-<style>
+<style scoped>
 form {
     background: white;
   }
