@@ -1,45 +1,74 @@
 <template>
-    <form @submit.prevent="addNewProject">
+    <div>
+        <form @submit.prevent="handleSubmit">
         <h4>Create new project</h4>
         <input type="text" placeholder="Project Title" v-model="title" required>
         <textarea placeholder="Description" v-model="description" required></textarea>
         <label for="">Upload project image</label>
         <input type="file" @change="handleChange">
         <div class="error">{{ fileError }}</div>
-        <button>Add new project</button>
-    </form>
+        <div class="error">{{ error }}</div>
+        <button v-if="!isPending">Add new project</button>
+        <button v-if="isPending">Adding project...</button>
+        </form>
+    </div>
 </template>
 
 <script>
 import { ref } from '@vue/reactivity'
+import useStorage from '@/composables/useStorage'
+import getUser from '@/composables/getUser'
+import useCollection from '@/composables/useCollection'
+import { timestamp } from '@/firebase/config.js'
+
 export default {
     setup(){
+        const { url, filePath, uploadImage } = useStorage()
+        const { user } = getUser()
+        const { addDoc, error, isPending } = useCollection('projects')
+
         const title = ref('')
         const description = ref('')
-        const coverImage = ref(null)
-        const fileTypes = ['image/png','image/jpeg']
+        const imageFile = ref(null)
         const fileError = ref(null)
 
-        const addNewProject = () => {
-            // add project to db and route to...
+        const handleSubmit = async () => {
+            if(imageFile.value){
+                await uploadImage(imageFile.value)
+                await addDoc({
+                    title: title.value,
+                    description: description.value,
+                    userId: user.value.uid,
+                    userName: user.value.displayName,
+                    coverUrl: url.value,
+                    filePath: filePath.value,
+                    tasks: [],
+                    createdAt: timestamp()
+                })
+            }
+            imageFile.value = null
+            title.value = ''
+            description.value = ''
+            fileError.value = null
+            
         }
 
+        const fileTypes = ['image/png','image/jpeg']
 
         const handleChange = (e) => {
-            const selected = e.target.files[0]
+            let selected = e.target.files[0]
             if(selected && fileTypes.includes(selected.type)){
-                // Add image to storage, resize and display as cover image
-                coverImage.value = selected
+                imageFile.value = selected
                 fileError.value = null
-                console.log(coverImage.value)
+                console.log(imageFile.value)
             }else{
-                coverImage.value = null
+                imageFile.value = null
                 fileError.value = 'Please select an image file (jpg or png)'
             }
         }
 
 
-        return { title, description, addNewProject, handleChange, coverImage, fileError }
+        return { title, description, handleSubmit, handleChange, imageFile, fileError, error, isPending }
     }
 }
 </script>

@@ -1,19 +1,20 @@
 import { ref } from "@vue/reactivity"
 import { fStorage } from "../firebase/config"
+import getUser from '@/composables/getUser'
 
 const { user } = getUser()
 
-const useStorage = async () => {
+const useStorage = () => {
     const error = ref(null)
     const url = ref(null)
     const filePath = ref(null)
 
-    const uploadImage = (file) => {
+    const uploadImage = async (file) => {
         filePath.value = `projectImages/${user.value.uid}/${file.name}`
         const storageRef = fStorage.ref(filePath.value)
         try{
             const res = await storageRef.put(file)
-            url.value = res.ref.getDownloadURL()
+            url.value = await res.ref.getDownloadURL()
         }
         catch(err){
             console.log(err.message)
@@ -21,8 +22,8 @@ const useStorage = async () => {
         }
     }
 
-    return { error, url, filePath, uploadImageS }
+    return { error, url, filePath, uploadImage }
 }
 
-export default { useStorage }
+export default useStorage 
 
