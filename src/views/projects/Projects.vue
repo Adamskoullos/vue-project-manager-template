@@ -1,0 +1,29 @@
+<template>
+    <div class="wrapper">
+        <div class="projects-window">
+            <div v-if="error" class="error">Cannot access projects from the database</div>
+            <div v-if="documents" class="projects">
+                <ProjectsList :projects="documents"/>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import getCollection from '@/composables/getCollection'
+import ProjectsList from '@/components/ProjectsList'
+
+export default {
+    components: { ProjectsList },
+    setup(){
+        const { documents, error } = getCollection('projects')
+
+
+        return { documents, error }
+    }
+}
+</script>
+
+<style>
+
+</style>
