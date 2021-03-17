@@ -20,12 +20,14 @@ import useStorage from '@/composables/useStorage'
 import getUser from '@/composables/getUser'
 import useCollection from '@/composables/useCollection'
 import { timestamp } from '@/firebase/config.js'
+import { useRouter } from 'vue-router'
 
 export default {
     setup(){
         const { url, filePath, uploadImage } = useStorage()
         const { user } = getUser()
         const { addDoc, error } = useCollection('projects')
+        const router = useRouter()
 
         const title = ref('')
         const description = ref('')
@@ -38,7 +40,7 @@ export default {
             if(imageFile.value){
                 isPendingLocal.value = true
                 await uploadImage(imageFile.value)
-                await addDoc({
+                const res = await addDoc({
                     title: title.value,
                     description: description.value,
                     userId: user.value.uid,
@@ -49,6 +51,10 @@ export default {
                     createdAt: timestamp()
                 })
                 isPendingLocal.value = false
+                if(!error.value){
+                    router.push({ name: 'ProjectDetails', params:{ id: res.id } })
+                    console.log()
+                }
             }
             imageFile.value = null
             title.value = ''

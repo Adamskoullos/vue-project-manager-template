@@ -10,8 +10,9 @@ const useCollection = (collection) => {
         error.value = null
         isPending.value = true
         try{
-            await fStore.collection(collection).add(doc)
+            const res = await fStore.collection(collection).add(doc)
             isPending.value = false
+            return res
         }
         catch(err){
             console.log(err.message)
@@ -23,3 +24,4 @@ const useCollection = (collection) => {
 }
 
 export default useCollection 
+
