@@ -49,7 +49,8 @@ const routes = [
     path: '/projects/:id',
     name: 'ProjectDetails',
     component: ProjectDetails,
-    beforeEnter: requireAuth
+    beforeEnter: requireAuth,
+    props: true
   }
 ]
 

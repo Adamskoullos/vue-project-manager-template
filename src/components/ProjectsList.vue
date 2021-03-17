@@ -12,7 +12,7 @@
             <div class="tasks">
                 <p>Tasks: {{ project.tasks.length }}</p>
             </div>
-        </div>
+          </div>
         </router-link>
     </div>
 </template>
