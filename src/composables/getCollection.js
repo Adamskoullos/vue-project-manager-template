@@ -8,7 +8,7 @@ const getCollection = (collection) => {
     const documents = ref(null)
     const error = ref(null)
 
-    let collectionRef = fStore.collection(collection).orderBy('createdAt')
+    let collectionRef = fStore.collection(collection).orderBy('createdAt',"desc")
 
     const unsub = collectionRef.onSnapshot((snap) => {
         let results = []
