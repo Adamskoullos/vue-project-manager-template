@@ -14,19 +14,21 @@
 
 import useSignup from '@/composables/useSignup'
 import { ref } from '@vue/reactivity'
+import { useRouter } from 'vue-router'
 
 export default {
     setup(){
         const displayName = ref('')
         const email = ref('')
         const password = ref('')
+        const router = useRouter()
         
         const { error, signup, isPending } = useSignup()
 
         const handleSubmit = async () => {
             const res = await signup(email.value, password.value, displayName.value )
             if(!error.value){
-                // redirect
+                router.push({ name: 'Projects' })
             }
             return res
         }
