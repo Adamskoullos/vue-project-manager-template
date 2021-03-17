@@ -1,21 +1,21 @@
 <template>
     <div class="navbar">
-    <nav>
-        <img src="" alt="">
-        <h1><router-link :to="{ name: 'Home' }" >AppName</router-link></h1>
-        <div class="links">
-            <div v-if="!user">
-                <router-link class="btn" :to="{ name: 'Login' }">Login</router-link>
-                <router-link class="btn" :to="{ name: 'Signup' }">Sign up</router-link>
-            </div>
-            <div v-if="user">
-                <router-link class="btn" :to="{ name: 'Projects' }">Projects</router-link>
-                <router-link class="btn" :to="{ name: 'NewProject' }">New Project</router-link>
-                <button v-if="!isPending" @click="handleLogout">Logout</button>
-                <button v-if="isPending" disabled>Logging out...</button>
-            </div>
-        </div>
-    </nav>
+      <nav>
+          <img src="" alt="">
+          <h1><router-link :to="{ name: 'Home' }" >AppName</router-link></h1>
+          <div class="links">
+              <div v-if="!user">
+                  <router-link class="btn" :to="{ name: 'Login' }">Login</router-link>
+                  <router-link class="btn" :to="{ name: 'Signup' }">Sign up</router-link>
+              </div>
+              <div v-if="user">
+                  <router-link class="btn" :to="{ name: 'Projects' }">Projects</router-link>
+                  <router-link class="btn" :to="{ name: 'NewProject' }">New Project</router-link>
+                  <button v-if="!isPending" @click="handleLogout">Logout</button>
+                  <button v-if="isPending" disabled>Logging out...</button>
+              </div>
+          </div>
+      </nav>
     </div>
 </template>
 
