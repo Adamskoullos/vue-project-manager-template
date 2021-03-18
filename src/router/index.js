@@ -4,6 +4,7 @@ import Login from '@/views/auth/Login.vue'
 import Signup from '@/views/auth/Signup.vue'
 import NewProject from '@/views/projects/NewProject.vue'
 import Projects from '@/views/projects/Projects.vue'
+import UserProjects from '@/views/projects/UserProjects.vue'
 import ProjectDetails from '@/views/projects/ProjectDetails.vue'
 
 import { fAuth } from '../firebase/config'
@@ -51,6 +52,12 @@ const routes = [
     component: ProjectDetails,
     beforeEnter: requireAuth,
     props: true
+  },
+  {
+    path: '/projects/user',
+    name: 'UserProjects',
+    component: UserProjects,
+    beforeEnter: requireAuth
   }
 ]
 

@@ -24,7 +24,23 @@ const useDocument = (collection, id) => {
         }
     }
 
-    return { deleteDoc, error, isPending }
+    const updateTasks = async (updates) => {
+        isPending = true
+        error.value = null
+        
+        try{
+            const res = await docRef.update(updates)
+            isPending = false
+            return res
+        }
+        catch(err){
+            error.value = 'Unable to add the task to the project'
+            isPending = false
+            console.log(err.message)
+        }
+    }
+
+    return { updateTasks, deleteDoc, error, isPending }
 }
 
 export default useDocument

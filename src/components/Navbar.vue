@@ -9,7 +9,8 @@
                   <router-link class="btn" :to="{ name: 'Signup' }">Sign up</router-link>
               </div>
               <div v-if="user">
-                  <router-link class="btn" :to="{ name: 'Projects' }">Projects</router-link>
+                  <router-link class="btn" :to="{ name: 'Projects' }">Team Projects</router-link>
+                  <router-link class="btn" :to="{ name: 'UserProjects' }">My Projects</router-link>
                   <router-link class="btn" :to="{ name: 'NewProject' }">New Project</router-link>
                   <button v-if="!isPending" @click="handleLogout">Logout</button>
                   <button v-if="isPending" disabled>Logging out...</button>
@@ -64,5 +65,8 @@ export default {
   nav .links a, button {
     margin-left: 16px;
     font-size: 14px;
+  }
+  a.router-link-active{
+    background: rgb(207, 207, 207);
   }
 </style>

@@ -10,23 +10,31 @@
 
 <script>
 import { ref } from '@vue/reactivity'
-import { fStore } from '../firebase/config'
+import useDocument from '@/composables/useDocument'
 
 export default {
     props: ['project'],
-    setup(){
+    setup(props){
+        const { updateTasks, isPending } = useDocument('projects', props.project.id)
         const task = ref('')
         const addTask = ref(false)
+        
         const handleAddTask = async () => {
+            addTask.value = true
             const newTask = {
                 task: task.value,
                 completed: false,
-                Id: Math.floor(Math.random()*1000000000)
+                id: Math.floor(Math.random()*1000000000)
             }
-            console.log(newTask)
+            await updateTasks({
+                tasks: [...props.project.tasks, newTask]
+            })
+            task.value = ''
+            addTask.value = false
+            
         }
 
-        return { task, addTask, handleAddTask }
+        return { task, addTask, handleAddTask, isPending }
     }
 }
 </script>
