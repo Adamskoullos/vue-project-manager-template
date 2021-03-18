@@ -16,7 +16,8 @@
 
     <!-- task list -->
     <div class="task-list">
-      <p>task list here</p>
+      <h2>Tasks</h2>
+      <AddTask v-if="ownership" :project="document"/>
     </div>
   </div>
 </template>
@@ -28,9 +29,11 @@ import getDocument from '@/composables/getDocument'
 import getUser from '@/composables/getUser'
 import { computed } from '@vue/runtime-core'
 import { useRouter } from 'vue-router'
+import AddTask from '@/components/AddTask.vue'
 
 export default {
     props: ['id'],
+    components: { AddTask },
     setup(props){
         const { deleteImage } = useStorage()
         const { deleteDoc, isPending } = useDocument('projects', props.id)
