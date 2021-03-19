@@ -12,6 +12,7 @@
                   <router-link class="btn" :to="{ name: 'Projects' }">Team Projects</router-link>
                   <router-link class="btn" :to="{ name: 'UserProjects' }">My Projects</router-link>
                   <router-link class="btn" :to="{ name: 'NewProject' }">New Project</router-link>
+                  <span class="user-name">{{ user.displayName }}</span>
                   <button v-if="!isPending" @click="handleLogout">Logout</button>
                   <button v-if="isPending" disabled>Logging out...</button>
               </div>
@@ -68,5 +69,11 @@ export default {
   }
   a.router-link-active{
     background: rgb(207, 207, 207);
+  }
+  .user-name{
+    font-size: 16px;
+    margin-left: 16px;
+    padding-left: 16px;
+    border-left: 1px solid #eee;
   }
 </style>
