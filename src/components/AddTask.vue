@@ -3,8 +3,12 @@
       <button v-if="!addTask" @click="addTask = true">Add Tasks</button>
       <form v-if="addTask" @submit.prevent="handleAddTask">
           <input type="text" placeholder="Add task" v-model="task" required>
-          <button>Add</button>
+          <div class="task-buttons">
+              <button class="task-buttons-add">Add</button>
+            <button class="task-buttons-close" v-if="addTask" @click="addTask = false">Close</button>
+          </div>
       </form>
+      
   </div>
 </template>
 
@@ -47,5 +51,12 @@ export default {
 form{
     max-width: 100%;
     text-align: left;
+}
+.task-buttons{
+    display: flex;
+    justify-content:flex-start;
+}
+.task-buttons-close{
+    margin-left: 10px;
 }
 </style>
