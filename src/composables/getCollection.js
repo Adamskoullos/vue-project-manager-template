@@ -4,11 +4,15 @@ import { fStore } from "../firebase/config"
 
 
 
-const getCollection = (collection) => {
+const getCollection = (collection, query) => {
     const documents = ref(null)
     const error = ref(null)
 
     let collectionRef = fStore.collection(collection).orderBy('createdAt',"desc")
+
+    if(query){
+        collectionRef = collectionRef.where(...query)
+    }
 
     const unsub = collectionRef.onSnapshot((snap) => {
         let results = []
@@ -31,3 +35,4 @@ const getCollection = (collection) => {
 }
 
 export default getCollection
+
